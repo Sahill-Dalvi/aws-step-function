@@ -1,0 +1,46 @@
+{
+  "Comment": "Hashing SM",
+  "StartAt": "HashInvoke",
+  "States": {
+    "HashInvoke": {
+      "Type": "Choice",
+      "Choices": [
+        {
+          "Variable": "$.action",
+          "StringEquals": "sha256",
+          "Next": "InvokeSHA256"
+        },
+        {
+          "Variable": "$.action",
+          "StringEquals": "md5",
+          "Next": "InvokeMD5"
+        },
+        {
+          "Variable": "$.action",
+          "StringEquals": "bcrypt",
+          "Next": "InvokeBcrypt"
+        }
+      ],
+      "Default": "Dstate"
+    },
+    "InvokeSHA256": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:925299567289:function:lambda1-sha",
+      "End": true
+    },
+    "InvokeMD5": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:925299567289:function:lambda2-md5",
+      "End": true
+    },
+    "InvokeBcrypt": {
+      "Type": "Task",
+      "Resource": "arn:aws:lambda:us-east-1:925299567289:function:lambda3-bycrypt",
+      "End": true
+    },
+    "Dstate": {
+      "Type": "Pass",
+      "End": true
+    }
+  }
+}
